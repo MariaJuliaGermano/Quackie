@@ -1,0 +1,66 @@
+/* Estilo para o corpo da página */
+body {
+    background-color: #15202B;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  /* Estilo para a barra de navegação */
+.navbar {
+    background-color: #1DA1F2 !important; /* Cor de fundo azul do Twitter */
+  }
+  
+  .navbar-brand a {
+    color: #FFFFFF !important; /* Cor do texto branco */
+    text-decoration: none;
+    font-weight: bold;
+  }  
+  
+  /* Container de formulário */
+  .container {
+    max-width: 400px;
+    background-color: #192734;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Título */
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1DA1F2;
+  }
+  
+  /* Estilo para os inputs */
+  input {
+    background-color: #243447;
+    color: #FFFFFF;
+    border: none;
+    margin-top: 10px;
+  }
+  
+  input:focus {
+    outline: none;
+    box-shadow: 0 0 5px #1DA1F2;
+  }
+  
+  /* Botão de envio */
+  button {
+    background-color: #1DA1F2;
+    color: #FFFFFF;
+    margin-top: 15px;
+    width: 100%;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #1A91DA;
+  }
+  
