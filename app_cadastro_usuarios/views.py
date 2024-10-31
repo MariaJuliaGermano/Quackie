@@ -7,8 +7,9 @@ def home(request):
 def usuarios(request):
     novo_usuario = Usuario()
     novo_usuario.nome = request.POST.get('nome') # Aqui define o campo nome no models usuario, pegando de "nome"
-    novo_usuario.idade = request.POST.get('idade') # Aqui define o campo idade no models usuario, pegando de "idade"
-    novo_usuario.save()
+    novo_usuario.email = request.POST.get('email') # Aqui define o campo email no models usuario, pegando de "email"
+    novo_usuario.senha = request.POST.get('senha') # Aqui define o campo senha no models usuario, pegando de "senha"
+    novo_usuario.save() 
     usuarios = {
         'usuarios': Usuario.objects.all() # Colocando em um dicionário todos os objetos do models Usuario que foram cadastrados
     }
