@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('app_cadastro_usuarios', '0002_remove_usuario_idade_usuario_email_usuario_senha'),
+        ('AppSocialMedia', '0002_remove_usuario_idade_usuario_email_usuario_senha'),
     ]
 
     operations = [

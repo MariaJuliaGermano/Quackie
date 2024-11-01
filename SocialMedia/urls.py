@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from app_cadastro_usuarios import views
+from AppSocialMedia import views
 
 urlpatterns = [
     # rota, view resposável, nome de referência
