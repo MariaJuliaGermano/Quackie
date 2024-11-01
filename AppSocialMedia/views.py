@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from app_cadastro_usuarios.models import Usuario
+from AppSocialMedia.models import Usuario
 
 def home(request):
     return render(request,'usuarios/home.html')
