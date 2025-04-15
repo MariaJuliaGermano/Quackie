@@ -13,4 +13,4 @@ def usuarios(request):
     usuarios = {
         'usuarios': Usuario.objects.all() # Colocando em um dicionário todos os objetos do models Usuario que foram cadastrados
     }
-    return render(request, 'usuarios/usuarios.html', usuarios) # Aqui ele retorna a mudança de página para a página que vai listar os usuários cadastrados e em seguida a própria lista de usuários
+    return render(request, 'usuarios/usuarios.html', usuarios) # Aqui ele retorna a mudança de página para a página que vai listar os usuários cadastrados e em seguida a própria lista de usuários 
