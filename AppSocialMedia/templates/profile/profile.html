@@ -1,0 +1,161 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ user.get_full_name|default:user.username }} - Quackie{% endblock %}
+
+{% block content %}
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div style="margin-bottom: 1.5rem;">
+            <div class="flex items-center gap-3">
+                <img src="{% static 'images/duck-logo.ico' %}" alt="Quackie Logo" width="32" height="32" style="filter: brightness(0) invert(1);">
+                <h1 class="text-xl font-bold text-yellow">Quackie</h1>
+            </div>
+        </div>
+
+        <nav style="margin-bottom: 1.5rem;">
+            <a href="{% url 'home' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">🏠</span>
+                Home
+            </a>
+            <a href="{% url 'search' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">🔍</span>
+                Pesquisar
+            </a>
+            <a href="{% url 'profile' %}" class="btn btn-ghost w-full text-left mb-2 active" style="background-color: var(--bg-gray-900);">
+                <span style="margin-right: 0.75rem;">👤</span>
+                Perfil
+            </a>
+            <a href="{% url 'post_create' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">✏️</span>
+                Postar
+            </a>
+        </nav>
+
+        <a href="{% url 'post_create' %}" class="btn btn-primary w-full rounded-full">Quackar</a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Header -->
+        <div style="border-bottom: 1px solid var(--border-gray-800); padding: 1rem;" class="flex items-center gap-4">
+            <a href="{% url 'home' %}" class="btn btn-ghost">
+                ← 
+            </a>
+            <div>
+                <h1 class="text-xl font-bold">{{ user.get_full_name|default:user.username }}</h1>
+                <p class="text-gray text-sm">{{ user_posts.count }} quackies</p>
+            </div>
+        </div>
+
+        <!-- Profile Header -->
+        <div>
+            <!-- Cover Image -->
+            <div style="height: 12rem; background: linear-gradient(to right, var(--primary-yellow), #f59e0b);"></div>
+
+            <!-- Profile Info -->
+            <div class="p-4">
+                <div class="flex justify-between items-start mb-4" style="margin-top: -4rem;">
+                    <div class="avatar avatar-lg" style="border: 4px solid #000000;">
+                        {{ user.first_name.0|default:user.username.0 }}
+                    </div>
+
+                    <a href="{% url 'profile_edit' %}" class="btn btn-outline" style="margin-top: 4rem;">
+                        Editar perfil
+                    </a>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <h1 class="text-2xl font-bold">{{ user.get_full_name|default:user.username }}</h1>
+                    <p class="text-gray">@{{ user.username }}</p>
+                </div>
+
+                <p class="mb-4">
+                    {{ user.profile.bio|default:"Desenvolvedor apaixonado por tecnologia 💻 | Amante de patos 🦆 | Sempre aprendendo algo novo" }}
+                </p>
+
+                <div class="flex items-center gap-4 text-gray text-sm mb-4">
+                    <div class="flex items-center gap-1">
+                        📍 {{ user.profile.location|default:"São Paulo, Brasil" }}
+                    </div>
+                    <div class="flex items-center gap-1">
+                        📅 Entrou em {{ user.date_joined|date:"F Y" }}
+                    </div>
+                </div>
+
+                <div class="flex gap-6 text-sm">
+                    <div>
+                        <span class="font-bold">{{ user.profile.following.count|default:"120" }}</span>
+                        <span class="text-gray ml-1">Seguindo</span>
+                    </div>
+                    <div>
+                        <span class="font-bold">{{ user.profile.followers.count|default:"89" }}</span>
+                        <span class="text-gray ml-1">Seguidores</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="border-bottom: 1px solid var(--border-gray-800);">
+            <div class="flex">
+                <button class="flex-1 p-4 text-center border-b-2" style="border-color: var(--primary-yellow);">
+                    Quackies
+                </button>
+                <button class="flex-1 p-4 text-center text-gray">
+                    Respostas
+                </button>
+                <button class="flex-1 p-4 text-center text-gray">
+                    Curtidas
+                </button>
+            </div>
+        </div>
+
+        <!-- Posts do usuário -->
+        <div>
+            {% if user_posts %}
+                {% for post in user_posts %}
+                <div class="post">
+                    <div class="flex gap-3">
+                        <div class="avatar">
+                            {{ user.first_name.0|default:user.username.0 }}
+                        </div>
+
+                        <div style="flex: 1;">
+                            <div class="flex items-center gap-2 mb-2">
+                                <h3 class="font-semibold">{{ user.get_full_name|default:user.username }}</h3>
+                                <span class="text-gray">@{{ user.username }}</span>
+                                <span class="text-gray">·</span>
+                                <span class="text-gray">{{ post.created_at|timesince }}</span>
+                            </div>
+
+                            <p class="mb-4">{{ post.content }}</p>
+
+                            <div class="flex items-center gap-6">
+                                <button class="btn-ghost text-gray">
+                                    💬 {{ post.comments.count }}
+                                </button>
+                                <button class="btn-ghost text-gray">
+                                    🔄 {{ post.reposts.count }}
+                                </button>
+                                <button class="btn-ghost text-gray">
+                                    ❤️ {{ post.likes.count }}
+                                </button>
+                                <button class="btn-ghost text-gray">
+                                    📤
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="p-8 text-center">
+                    <p class="text-gray">Nenhum quackie ainda</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
