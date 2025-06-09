@@ -1,23 +1,101 @@
-{% extends 'usuarios/base.html' %}
-{% block conteudo %}
+{% extends 'base/base.html' %}
 {% load static %}
-<form action="{% url 'listagem_usuarios' %}" method="post">
-    {% csrf_token %}
-    <div class="container text-center">
-        <h1 style="color: #EBC556;">Cadastre-se</h1>
-        <div class="mb-3">
-            <input name="nome" class="form-control" type="text" placeholder="Nome" required>
+
+{% block title %}Home - Quackie{% endblock %}
+
+{% block content %}
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div style="margin-bottom: 1.5rem;">
+            <div class="flex items-center gap-3">
+                <img src="{% static 'images/duck_icon.ico' %}" alt="Quackie Logo" width="55" height="55">
+                <h1 class="text-xl font-bold text-yellow">Quackie</h1>
+            </div>
         </div>
-        <div class="mb-3">
-            <input name="email" class="form-control" type="email" placeholder="Email" required>
-        </div>
-        <div class="mb-3">
-            <input name="senha" class="form-control" type="password" placeholder="Senha" required>
-        </div>
-        <button class="btn">Enviar</button>
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1"><a style="text-decoration: none; color: #EBC556;" href="{% url 'home' %}">Já tenho cadastro</a></span>
+
+        <nav style="margin-bottom: 1.5rem;">
+            <a href="{% url 'home' %}" class="btn btn-ghost w-full text-left mb-2 active" style="background-color: var(--bg-gray-900);">
+                <span style="margin-right: 0.75rem;">🏠</span>
+                Home
+            </a>
+            <a href="{% url 'search' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">🔍</span>
+                Pesquisar
+            </a>
+            <a href="{% url 'profile' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">👤</span>
+                Perfil
+            </a>
+            <a href="{% url 'post_create' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">✏️</span>
+                Postar
+            </a>
+        </nav>
+
+        <a href="{% url 'post_create' %}" class="btn btn-primary w-full rounded-full">Quackar</a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <div style="max-width: 42rem; border-right: 1px solid var(--border-gray-800);">
+            <div style="border-bottom: 1px solid var(--border-gray-800); padding: 1rem;">
+                <h2 class="text-xl font-bold">Home</h2>
+            </div>
+
+            <!-- Posts -->
+            <div>
+                {% if posts %}
+                    {% for post in posts %}
+                    <div class="post">
+                        <div class="flex gap-3">
+                            <div class="avatar">
+                                {{ post.user.first_name.0|default:post.user.username.0 }}
+                            </div>
+
+                            <div style="flex: 1;">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <h3 class="font-semibold">{{ post.user.get_full_name|default:post.user.username }}</h3>
+                                    <span class="text-gray">@{{ post.user.username }}</span>
+                                    <span class="text-gray">·</span>
+                                    <span class="text-gray">{{ post.created_at|timesince }}</span>
+                                </div>
+
+                                <p class="mb-4">{{ post.content }}</p>
+
+                                <div class="flex items-center gap-6">
+                                    <button class="btn-ghost text-gray">
+                                        💬 {{ post.comments.count }}
+                                    </button>
+                                    <button class="btn-ghost text-gray">
+                                        🔄 {{ post.reposts.count }}
+                                    </button>
+                                    <button class="btn-ghost text-gray">
+                                        ❤️ {{ post.likes.count }}
+                                    </button>
+                                    <button class="btn-ghost text-gray">
+                                        📤
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="p-8 text-center">
+                        <p class="text-lg text-gray">Tudo silencioso por enquanto, não há nenhum quackie por aqui 🦆</p>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
-    </form>
+
+    <!-- Sidebar Direita -->
+    <div style="width: 20rem; padding: 1rem;">
+        <div class="card">
+            <h3 class="text-lg font-semibold mb-4">O que está acontecendo</h3>
+            <p class="text-gray">Nada por enquanto...</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
