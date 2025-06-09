@@ -1,0 +1,154 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Pesquisar - Quackie{% endblock %}
+
+{% block content %}
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div style="margin-bottom: 1.5rem;">
+            <div class="flex items-center gap-3">
+                <img src="{% static 'images/duck-logo.ico' %}" alt="Quackie Logo" width="32" height="32" style="filter: brightness(0) invert(1);">
+                <h1 class="text-xl font-bold text-yellow">Quackie</h1>
+            </div>
+        </div>
+
+        <nav style="margin-bottom: 1.5rem;">
+            <a href="{% url 'home' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">🏠</span>
+                Home
+            </a>
+            <a href="{% url 'search' %}" class="btn btn-ghost w-full text-left mb-2 active" style="background-color: var(--bg-gray-900);">
+                <span style="margin-right: 0.75rem;">🔍</span>
+                Pesquisar
+            </a>
+            <a href="{% url 'profile' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">👤</span>
+                Perfil
+            </a>
+            <a href="{% url 'post_create' %}" class="btn btn-ghost w-full text-left mb-2">
+                <span style="margin-right: 0.75rem;">✏️</span>
+                Postar
+            </a>
+        </nav>
+
+        <a href="{% url 'post_create' %}" class="btn btn-primary w-full rounded-full">Quackar</a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <div style="max-width: 42rem; border-right: 1px solid var(--border-gray-800);">
+            <div style="border-bottom: 1px solid var(--border-gray-800); padding: 1rem;">
+                <h2 class="text-xl font-bold">Pesquisar</h2>
+            </div>
+
+            <!-- Formulário de Pesquisa -->
+            <div class="p-4">
+                <form method="get" action="{% url 'search' %}" class="mb-6">
+                    <div class="relative">
+                        <input 
+                            type="search" 
+                            name="q" 
+                            placeholder="Pesquisar no Quackie" 
+                            class="input pl-10" 
+                            value="{{ request.GET.q|default:'' }}"
+                            autofocus
+                        >
+                        <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%);">
+                            🔍
+                        </span>
+                    </div>
+                </form>
+
+                <!-- Tabs de Pesquisa -->
+                <div class="mb-4">
+                    <div class="flex border-b border-gray-800">
+                        <button class="flex-1 p-3 text-center border-b-2" style="border-color: var(--primary-yellow);">
+                            Principais
+                        </button>
+                        <button class="flex-1 p-3 text-center text-gray">
+                            Usuários
+                        </button>
+                        <button class="flex-1 p-3 text-center text-gray">
+                            Quackies
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resultados da Pesquisa -->
+                {% if request.GET.q %}
+                    {% if search_results %}
+                        <div class="space-y-4">
+                            {% for user in search_results.users %}
+                                <div class="flex items-center gap-3 p-3 hover:bg-gray-900 rounded-lg transition">
+                                    <div class="avatar">
+                                        {{ user.first_name.0|default:user.username.0 }}
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold">{{ user.get_full_name|default:user.username }}</h3>
+                                        <p class="text-gray">@{{ user.username }}</p>
+                                    </div>
+                                    <a href="{% url 'user_profile' username=user.username %}" class="btn btn-outline ml-auto">Ver perfil</a>
+                                </div>
+                            {% endfor %}
+
+                            {% for post in search_results.posts %}
+                                <div class="post">
+                                    <div class="flex gap-3">
+                                        <div class="avatar">
+                                            {{ post.user.first_name.0|default:post.user.username.0 }}
+                                        </div>
+                                        <div style="flex: 1;">
+                                            <div class="flex items-center gap-2 mb-2">
+                                                <h3 class="font-semibold">{{ post.user.get_full_name|default:post.user.username }}</h3>
+                                                <span class="text-gray">@{{ post.user.username }}</span>
+                                                <span class="text-gray">·</span>
+                                                <span class="text-gray">{{ post.created_at|timesince }}</span>
+                                            </div>
+                                            <p class="mb-4">{{ post.content }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center p-8">
+                            <p class="text-gray">Nenhum resultado encontrado para "{{ request.GET.q }}"</p>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center p-8">
+                        <p class="text-gray">Digite algo para pesquisar</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Direita -->
+    <div style="width: 20rem; padding: 1rem;">
+        <div class="card">
+            <h3 class="text-lg font-semibold mb-4">Quem seguir</h3>
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="avatar">M</div>
+                    <div>
+                        <h4 class="font-semibold">Maria Santos</h4>
+                        <p class="text-gray text-sm">@maria_santos</p>
+                    </div>
+                    <button class="btn btn-outline btn-sm ml-auto">Seguir</button>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="avatar">P</div>
+                    <div>
+                        <h4 class="font-semibold">Pedro Alves</h4>
+                        <p class="text-gray text-sm">@pedro_alves</p>
+                    </div>
+                    <button class="btn btn-outline btn-sm ml-auto">Seguir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
