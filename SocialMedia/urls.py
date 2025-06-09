@@ -10,5 +10,7 @@ urlpatterns = [
     path('search/',views.search,name='search'),
     path('profile/',views.profile,name='profile'),
     path('post/',views.post_create,name='post_create'),
-    path('usuarios/',views.usuarios,name='listagem_usuarios')
+    path('usuarios/',views.usuarios,name='listagem_usuarios'),
+    path('admin/', admin.site.urls),
+
 ]
