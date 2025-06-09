@@ -3,9 +3,12 @@ from django.urls import path
 from AppSocialMedia import views
 
 urlpatterns = [
-    # rota, view resposável, nome de referência
-    # usuarios.com
-    path('',views.home,name='home'),
-    # usuarios.com/usuarios
+    path('',views.base,name='base'),
+    path('register/',views.register,name='register'),
+    path('login/',views.login,name='login'),
+    path('home/',views.home,name='home'),
+    path('search/',views.search,name='search'),
+    path('profile/',views.profile,name='profile'),
+    path('post/',views.post_create,name='post_create'),
     path('usuarios/',views.usuarios,name='listagem_usuarios')
 ]
