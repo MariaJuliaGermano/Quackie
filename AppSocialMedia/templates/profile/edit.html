@@ -1,0 +1,103 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Editar perfil - Quackie{% endblock %}
+
+{% block content %}
+<div class="min-h-screen">
+    <!-- Header -->
+    <div class="border-bottom-gray p-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="{% url 'profile' %}" class="btn btn-ghost">
+                ←
+            </a>
+            <h1 class="text-xl font-bold">Editar perfil</h1>
+        </div>
+        <button type="submit" form="edit-profile-form" class="btn btn-primary">Salvar</button>
+    </div>
+
+    <!-- Form -->
+    <div class="form-container">
+        <div class="card">
+            <form id="edit-profile-form" method="post" enctype="multipart/form-data" action="{% url 'profile_edit' %}">
+                {% csrf_token %}
+                
+                <!-- Profile Picture -->
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="profile-picture-container">
+                        <div class="avatar avatar-edit">
+                            {{ user.first_name.0|default:user.username.0 }}
+                        </div>
+                        <label for="profile_picture" class="camera-btn">
+                            📷
+                            <input type="file" id="profile_picture" name="profile_picture" style="display: none;" accept="image/*">
+                        </label>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">Foto do perfil</h3>
+                        <p class="text-gray text-sm">Clique no ícone para alterar</p>
+                    </div>
+                </div>
+
+                <!-- Name -->
+                <div class="mb-4">
+                    <label for="first_name" class="label">Nome</label>
+                    <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" class="input">
+                </div>
+
+                <!-- Username -->
+                <div class="mb-4">
+                    <label for="username" class="label">Nome de usuário</label>
+                    <input type="text" id="username" name="username" value="{{ user.username }}" class="input">
+                </div>
+
+                <!-- Bio -->
+                <div class="mb-4">
+                    <label for="bio" class="label">Bio</label>
+                    <textarea id="bio" name="bio" class="input textarea-bio">{{ user.profile.bio|default:"Desenvolvedor apaixonado por tecnologia 💻 | Amante de patos 🦆 | Sempre aprendendo algo novo" }}</textarea>
+                </div>
+
+                <!-- Location -->
+                <div class="mb-4">
+                    <label for="location" class="label">Localização</label>
+                    <input type="text" id="location" name="location" value="{{ user.profile.location|default:'São Paulo, Brasil' }}" class="input">
+                </div>
+
+                <!-- Email -->
+                <div class="mb-4">
+                    <label for="email" class="label">Email</label>
+                    <input type="email" id="email" name="email" value="{{ user.email }}" class="input">
+                </div>
+
+                <!-- Password Change -->
+                <div class="password-section">
+                    <h3 class="font-semibold mb-4">Alterar senha</h3>
+
+                    <div class="mb-4">
+                        <label for="current_password" class="label">Senha atual</label>
+                        <input type="password" id="current_password" name="current_password" placeholder="Digite sua senha atual" class="input">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="new_password" class="label">Nova senha</label>
+                        <input type="password" id="new_password" name="new_password" placeholder="Digite sua nova senha" class="input">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="confirm_new_password" class="label">Confirmar nova senha</label>
+                        <input type="password" id="confirm_new_password" name="confirm_new_password" placeholder="Confirme sua nova senha" class="input">
+                    </div>
+                </div>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="message {% if message.tags == 'success' %}message-success{% else %}message-error{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

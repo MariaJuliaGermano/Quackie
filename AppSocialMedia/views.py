@@ -14,3 +14,21 @@ def usuarios(request):
         'usuarios': Usuario.objects.all() # Colocando em um dicionário todos os objetos do models Usuario que foram cadastrados
     }
     return render(request, 'usuarios/usuarios.html', usuarios) # Aqui ele retorna a mudança de página para a página que vai listar os usuários cadastrados e em seguida a própria lista de usuários 
+
+def search(request):
+    return render(request, 'base/search.html')
+
+def profile(request):
+    return render(request, 'profile/profile.html')
+
+def post_create(request):
+    return render(request, 'post/create.html')
+
+def login(request):
+    return render(request, 'auth/login.html')
+
+def register(request):
+    return render(request, 'auth/register.html')
+
+def base(request):
+    return render(request, 'base/landing.html')
