@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind componentes;
+@tailwind utilities;
+
 /* Reset e configurações básicas */
 * {
   margin: 0;
