@@ -5,6 +5,7 @@
 
 {% block content %}
 <div class="flex min-h-screen">
+    <!-- Side bar -->
     <div class="sidebar flex flex-col">
         <div>
             <div style="margin-bottom: 1.5rem; margin-top: 15%;">
@@ -58,7 +59,7 @@
         </div>
     </div>
 
-
+    <!-- Conteúdo principal -->
     <div class="main-content flex-grow border-r border-gray-800 flex flex-col items-center">
         <div class="w-full max-w-2xl mx-auto">
             <div style="border-bottom: 1px solid var(--border-gray-800); padding: 1rem;">
@@ -145,9 +146,11 @@
         </div>
     </div>
 
+    <!-- Side bar da direita -->
     <div style="width: 20rem; padding: 1rem; min-height: 100vh;">
         <div class="card" style="margin-top: 10%;">
             <h3 class="text-lg font-semibold mb-4">Outros Patos</h3>
+            <!-- Conteúdo de dentro -->
             <div class="space-y-4">
                 <div class="flex items-center gap-3">
                     <div class="avatar">L</div>
