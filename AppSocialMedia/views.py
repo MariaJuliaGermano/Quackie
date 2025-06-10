@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 import logging
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request,'usuarios/home.html')
@@ -22,6 +23,13 @@ def search(request):
 
 def profile(request):
     return render(request, 'profile/profile.html')
+
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        return redirect('profile')
+    else:
+        return render(request, 'profile/profile_edit.html')
 
 def post_create(request):
     return render(request, 'post/create.html')
