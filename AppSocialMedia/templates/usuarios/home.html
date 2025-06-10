@@ -5,45 +5,65 @@
 
 {% block content %}
 <div class="flex min-h-screen">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div style="margin-bottom: 1.5rem;">
-            <div class="flex items-center gap-3">
-                <img src="{% static 'images/duck_icon.ico' %}" alt="Quackie Logo" width="55" height="55">
-                <h1 class="text-xl font-bold text-yellow">Quackie</h1>
+    <div class="sidebar flex flex-col">
+        <div>
+            <div style="margin-bottom: 1.5rem; margin-top: 15%;">
+                <div class="flex items-center gap-3 justify-center">
+                    <img src="{% static 'images/duck_icon_ampli.ico' %}" alt="Quackie Logo" width="32" height="32">
+                    <h1 class="text-xl font-bold text-yellow">Quackie</h1>
+                </div>
             </div>
+
+            <nav style="margin-bottom: 1.5rem;">
+                <a href="{% url 'home' %}" class="btn btn-ghost w-full text-left mb-2 active" style="background-color: var(--bg-gray-900);">
+                    <span style="margin-right: 0.75rem;"><i class="fa-solid fa-house text-gray"></i></span>
+                    Home
+                </a>
+                <a href="{% url 'search' %}" class="btn btn-ghost w-full text-left mb-2">
+                    <span style="margin-right: 0.75rem;"><i class="fa-solid fa-magnifying-glass text-gray"></i></span>
+                    Pesquisar
+                </a>
+                <a href="{% url 'profile' %}" class="btn btn-ghost w-full text-left mb-2">
+                    <span style="margin-right: 0.75rem;"><i class="fa-solid fa-user text-gray"></i></span>
+                    Perfil
+                </a>
+                <a href="{% url 'post_create' %}" class="btn btn-ghost w-full text-left mb-2">
+                    <span style="margin-right: 0.75rem;"><i class="fa-solid fa-comment text-gray"></i></span>
+                    Postar
+                </a>
+            </nav>
+
+            <a href="{% url 'post_create' %}" class="btn btn-primary w-full rounded-full">Quack!</a>
         </div>
 
-        <nav style="margin-bottom: 1.5rem;">
-            <a href="{% url 'home' %}" class="btn btn-ghost w-full text-left mb-2 active" style="background-color: var(--bg-gray-900);">
-                <span style="margin-right: 0.75rem;">🏠</span>
-                Home
+        <div class="mt-auto p-4">
+            <p class="text-gray text-sm mb-2 font-semibold">Pato logado:</p>
+            <div class="flex items-center gap-3">
+                <div class="avatar w-10 h-10 rounded-full flex items-center justify-center bg-yellow text-black">
+                    {{ request.user.first_name.0|default:request.user.username.0 }}
+                </div>
+                <div>
+                    <h3 class="font-semibold">{{ request.user.get_full_name|default:request.user.username }}</h3>
+                    <p class="text-gray">@{{ request.user.username }}</p>
+                </div>
+            </div>
+            <a href="{% url 'logout' %}" class="btn btn-ghost w-full relative" style="margin-top: 5%;"> 
+                <span class="absolute left-3 -translate-y-1/2">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </span>
+                <span class="block text-center">
+                    Sair
+                </span>
             </a>
-            <a href="{% url 'search' %}" class="btn btn-ghost w-full text-left mb-2">
-                <span style="margin-right: 0.75rem;">🔍</span>
-                Pesquisar
-            </a>
-            <a href="{% url 'profile' %}" class="btn btn-ghost w-full text-left mb-2">
-                <span style="margin-right: 0.75rem;">👤</span>
-                Perfil
-            </a>
-            <a href="{% url 'post_create' %}" class="btn btn-ghost w-full text-left mb-2">
-                <span style="margin-right: 0.75rem;">✏️</span>
-                Postar
-            </a>
-        </nav>
-
-        <a href="{% url 'post_create' %}" class="btn btn-primary w-full rounded-full">Quackar</a>
+        </div>
     </div>
 
-    <!-- Conteúdo Principal -->
-    <div class="main-content">
-        <div style="max-width: 42rem; border-right: 1px solid var(--border-gray-800);">
+    <div class="main-content flex-grow border-r border-gray-800 flex flex-col items-center">
+        <div class="w-full max-w-2xl mx-auto">
             <div style="border-bottom: 1px solid var(--border-gray-800); padding: 1rem;">
                 <h2 class="text-xl font-bold">Home</h2>
             </div>
 
-            <!-- Posts -->
             <div>
                 {% if posts %}
                     {% for post in posts %}
@@ -83,16 +103,15 @@
                     {% endfor %}
                 {% else %}
                     <div class="p-8 text-center">
-                        <p class="text-lg text-gray">Tudo silencioso por enquanto, não há nenhum quackie por aqui 🦆</p>
+                        <p class="text-lg text-gray">Parece que o lago está tranquilo... Faça seu primeiro quack!</p>
                     </div>
                 {% endif %}
             </div>
         </div>
     </div>
 
-    <!-- Sidebar Direita -->
-    <div style="width: 20rem; padding: 1rem;">
-        <div class="card">
+    <div style="width: 20rem; padding: 1rem; min-height: 100vh;">
+        <div class="card" style="margin-top: 10%;">
             <h3 class="text-lg font-semibold mb-4">O que está acontecendo</h3>
             <p class="text-gray">Nada por enquanto...</p>
         </div>

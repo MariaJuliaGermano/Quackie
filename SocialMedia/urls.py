@@ -12,5 +12,6 @@ urlpatterns = [
     path('post/',views.post_create,name='post_create'),
     path('usuarios/',views.usuarios,name='listagem_usuarios'),
     path('admin/', admin.site.urls),
+    path('logout',views.logout,name='logout')
 
 ]

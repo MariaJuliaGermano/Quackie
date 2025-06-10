@@ -56,3 +56,6 @@ def register(request):
 
 def base(request):
     return render(request, 'base/landing.html')
+
+def logout(request):
+    return render(request, 'base/search.html')
