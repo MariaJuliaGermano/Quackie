@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Home - Quackie{% endblock %}
@@ -27,13 +27,13 @@
                     <span style="margin-right: 0.75rem;"><i class="fa-solid fa-user text-gray"></i></span>
                     Perfil
                 </a>
-                <a href="{% url 'post_create' %}" class="btn btn-ghost w-full text-left mb-2">
+                <a href="{% url 'quack_create' %}" class="btn btn-ghost w-full text-left mb-2">
                     <span style="margin-right: 0.75rem;"><i class="fa-solid fa-comment text-gray"></i></span>
                     Postar
                 </a>
             </nav>
 
-            <a href="{% url 'post_create' %}" class="btn btn-primary w-full rounded-full">Quack!</a>
+            <a href="{% url 'quack_create' %}" class="btn btn-primary w-full rounded-full">Quack!</a>
         </div>
 
         <div class="mt-auto p-4">

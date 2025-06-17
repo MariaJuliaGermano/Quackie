@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Criar Quack - Quackie{% endblock %}
@@ -27,13 +27,13 @@
                     <span style="margin-right: 0.75rem;"><i class="fa-solid fa-user text-gray"></i></span>
                     Perfil
                 </a>
-                <a href="{% url 'post_create' %}" class="btn btn-ghost w-full text-left mb-2 active" style="background-color: var(--bg-gray-900);">
+                <a href="{% url 'quack_create' %}" class="btn btn-ghost w-full text-left mb-2 active" style="background-color: var(--bg-gray-900);">
                     <span style="margin-right: 0.75rem;"><i class="fa-solid fa-comment text-gray"></i></span>
                     Postar
                 </a>
             </nav>
 
-            <a href="{% url 'post_create' %}" class="btn btn-primary w-full rounded-full">Quack!</a>
+            <a href="{% url 'quack_create' %}" class="btn btn-primary w-full rounded-full">Quack!</a>
         </div>
 
         <div class="mt-auto p-4">
@@ -47,7 +47,7 @@
                     <p class="text-gray">@{{ request.user.username }}</p>
                 </div>
             </div>
-            <a href="{% url 'logout' %}" class="btn btn-ghost w-full relative" style="margin-top: 5%;"> 
+            <a href="{% url 'logout' %}" class="btn btn-ghost w-full relative" style="margin-top: 5%;">
                 <span class="absolute left-3 -translate-y-1/2">
                     <i class="fa-solid fa-right-from-bracket"></i>
                 </span>
@@ -59,12 +59,13 @@
     </div>
 
     <div class="main-content flex-grow border-r border-gray-800 flex flex-col items-center">
-        <div class="w-full max-w-2xl mx-auto"> <div style="border-bottom: 1px solid var(--border-gray-800); padding: 1rem;">
+        <div class="w-full max-w-2xl mx-auto"> 
+            <div style="border-bottom: 1px solid var(--border-gray-800); padding: 1rem;">
                 <h2 class="text-xl font-bold">Criar Quack</h2>
             </div>
 
             <div class="p-4">
-                <form method="post" action="{% url 'post_create' %}" enctype="multipart/form-data">
+                <form method="post" action="{% url 'quack_create' %}">
                     {% csrf_token %}
                     
                     <div class="flex gap-3">
@@ -73,16 +74,17 @@
                         </div>
                         
                         <div style="flex: 1;">
-                            <textarea 
-                                name="content" 
-                                placeholder="O que está acontecendo?" 
-                                class="input mb-4" 
-                                style="min-height: 8rem; resize: none;"
-                                maxlength="280"
-                                required
-                            ></textarea>
                             
-                            <div class="flex items-center justify-between">
+                            {{ form.body }}
+
+                            {% if form.body.errors %}
+                                <div class="text-red-500 text-sm mt-1">
+                                    {% for error in form.body.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="flex items-center justify-between mt-4">
                                 <div class="flex items-center gap-4">
                                     <label class="cursor-pointer text-yellow hover:text-yellow-500 transition">
                                         📷
@@ -96,7 +98,7 @@
                                         📊
                                         <input type="checkbox" name="poll" style="display: none;">
                                     </label>
-                                    <span class="text-gray" id="char-count">280</span>
+                                    <span class="text-gray" id="char-count">255</span>
                                 </div>
                                 
                                 <button type="submit" class="btn btn-primary">Quack!</button>
@@ -146,12 +148,12 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Contador de caracteres
-        const textarea = document.querySelector('textarea[name="content"]');
+        const textarea = document.querySelector('textarea[name="body"]'); 
         const charCount = document.getElementById('char-count');
+        const maxLength = 255; 
         
         textarea.addEventListener('input', function() {
-            const remaining = 280 - this.value.length;
+            const remaining = maxLength - this.value.length;
             charCount.textContent = remaining;
             
             if (remaining < 0) {
@@ -162,8 +164,8 @@
                 charCount.style.color = '';
             }
         });
+
         
-        // Preview de imagem
         const imageInput = document.querySelector('input[name="image"]');
         const imagePreview = document.getElementById('image-preview');
         const previewImg = imagePreview.querySelector('img');
@@ -187,7 +189,6 @@
             imagePreview.style.display = 'none';
         });
         
-        // Campos de enquete
         const pollCheckbox = document.querySelector('input[name="poll"]');
         const pollFields = document.getElementById('poll-fields');
         const addPollOptionBtn = document.getElementById('add-poll-option');
